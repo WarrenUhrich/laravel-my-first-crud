@@ -10,6 +10,10 @@
         <script src="{{ asset('js/app.js') }}" type="text/javascript" defer></script>
     </head>
     <body>
+        <h1>
+            @yield('title')
+        </h1>
+        @include('partials.navigation')
         @yield('content')
     </body>
 </html>
