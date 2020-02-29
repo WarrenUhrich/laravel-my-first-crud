@@ -19,6 +19,11 @@ Tweets Index
             </p>
             <ul>
                 <li>
+                    <a href="{{ route('tweets.show', $tweet->id) }}">
+                        Read More
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('tweets.edit', $tweet->id) }}">
                         Edit Tweet
                     </a>
