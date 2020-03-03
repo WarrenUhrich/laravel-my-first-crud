@@ -7,5 +7,5 @@ Show Tweet
 <h2>{{ $tweet->author }}</h2>
 <p>
     {{ $tweet->message }}
-</p>{{$test}}
+</p>
 @endsection

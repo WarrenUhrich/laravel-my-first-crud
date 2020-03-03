@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Tweet;
+use App\Tweet; // Need to pull in our model to use it!
+use Auth; // Need to pull in Auth in order to use it!
 
 class TweetController extends Controller
 {
@@ -28,7 +29,11 @@ class TweetController extends Controller
     public function create()
     {
         //
-        return view('tweets.create');
+        $user = Auth::user();
+        if ( $user ) // Yay! You're logged in, create away!
+            return view('tweets.create');
+        else // Uh oh, logged out! Redirect.
+            return redirect('/tweets');
     }
 
     /**
@@ -39,15 +44,19 @@ class TweetController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $validatedData = $request->validate(array(
-            'message' => 'required|max:255',
-            'author'  => 'required|max:64'
-        ));
-
-        $tweet = Tweet::create( $validatedData );
-
-        return redirect('/tweets')->with('success', 'Tweet saved.');
+        // Assign and check user all at once.
+        if ( $user = Auth::user() ) { // Proceed and store data if the user is logged in.
+            $validatedData = $request->validate(array(
+                'message' => 'required|max:255',
+                'author'  => 'required|max:64'
+            ));
+    
+            $tweet = Tweet::create( $validatedData );
+    
+            return redirect('/tweets')->with('success', 'Tweet saved.');
+        }
+        // Redirect by default.
+        return redirect('/tweets');
     }
 
     /**
@@ -72,10 +81,13 @@ class TweetController extends Controller
      */
     public function edit($id)
     {
-        //
-        $tweet = Tweet::findOrFail($id);
-
-        return view( 'tweets.edit', compact('tweet') );
+        // Check if user is logged in.
+        if ( $user = Auth::user() ) {
+            $tweet = Tweet::findOrFail($id);
+            return view( 'tweets.edit', compact('tweet') );
+        }
+        // Redirect by default.
+        return redirect('/tweets');
     }
 
     /**
@@ -87,15 +99,19 @@ class TweetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        $validatedData = $request->validate(array(
-            'message' => 'required|max:255',
-            'author'  => 'required|max:64'
-        ));
-
-        Tweet::whereId($id)->update($validatedData);
-
-        return redirect('/tweets')->with('success', 'Tweet updated.');
+        // Check if user is logged in.
+        if ( $user = Auth::user() ) {
+            $validatedData = $request->validate(array(
+                'message' => 'required|max:255',
+                'author'  => 'required|max:64'
+            ));
+    
+            Tweet::whereId($id)->update($validatedData);
+    
+            return redirect('/tweets')->with('success', 'Tweet updated.');
+        }
+        // Redirect by default.
+        return redirect('/tweets');
     }
 
     /**
@@ -106,11 +122,15 @@ class TweetController extends Controller
      */
     public function destroy($id)
     {
-        //
-        $tweet = Tweet::findOrFail($id);
+        // Check if user is logged in.
+        if ( $user = Auth::user() ) {
+            $tweet = Tweet::findOrFail($id);
 
-        $tweet->delete();
+            $tweet->delete();
 
-        return redirect('/tweets')->with('success', 'Tweet deleted.');
+            return redirect('/tweets')->with('success', 'Tweet deleted.');
+        }
+        // Redirect by default.
+        return redirect('/tweets');
     }
 }

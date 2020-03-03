@@ -23,18 +23,20 @@ Tweets Index
                         Read More
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('tweets.edit', $tweet->id) }}">
-                        Edit Tweet
-                    </a>
-                </li>
-                <li>
-                    <form action="{{ route('tweets.destroy', $tweet->id) }}" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <input type="submit" value="Delete Tweet">
-                    </form>
-                </li>
+                @auth
+                    <li>
+                        <a href="{{ route('tweets.edit', $tweet->id) }}">
+                            Edit Tweet
+                        </a>
+                    </li>
+                    <li>
+                        <form action="{{ route('tweets.destroy', $tweet->id) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <input type="submit" value="Delete Tweet">
+                        </form>
+                    </li>
+                @endauth
             </ul>
         </li>
     @endforeach

@@ -6,10 +6,12 @@
                 Index
             </a>
         </li>
-        <li>
-            <a href="{{ route('tweets.create') }}">
-                Create
-            </a>
-        </li>
+        @auth
+            <li>
+                <a href="{{ route('tweets.create') }}">
+                    Create
+                </a>
+            </li>
+        @endauth
     </ul>
 </nav>
