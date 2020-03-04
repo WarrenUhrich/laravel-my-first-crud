@@ -4,7 +4,7 @@
 Show Tweet
 @endsection
 @section('content')
-<h2>{{ $tweet->author }}</h2>
+<h2>{{ $tweetUser->name }}</h2>
 <p>
     {{ $tweet->message }}
 </p>

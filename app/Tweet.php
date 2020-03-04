@@ -8,7 +8,11 @@ class Tweet extends Model
 {
     //
     protected $fillable = array(
-        'message',
-        'author',
+        'message'
     );
+
+    public function user()
+    {
+        return $this->belongsTo( 'App\User' );
+    }
 }

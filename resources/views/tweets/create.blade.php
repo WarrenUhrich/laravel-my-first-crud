@@ -13,10 +13,10 @@ Create Tweet Form
         <strong>Input a Message:</strong>
         <textarea name="message" id="message" cols="30" rows="10"></textarea>
     </label>
-    <label for="author">
+    {{--<label for="author">
         <strong>Author Name:</strong>
         <input type="text" name="author" id="author">
-    </label>
+    </label>--}}
     <input type="submit" value="Publish Tweet">
 </form>
 @endsection

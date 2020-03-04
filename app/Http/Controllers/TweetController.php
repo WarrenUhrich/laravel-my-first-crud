@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Tweet; // Need to pull in our model to use it!
+use App\User; // Let's pull in our User model!
 use Auth; // Need to pull in Auth in order to use it!
 
 class TweetController extends Controller
@@ -16,7 +17,9 @@ class TweetController extends Controller
     public function index()
     {
         //
-        $tweets = Tweet::all();
+        $tweets = Tweet::query()
+                    ->join( 'users', 'tweets.user_id', '=', 'users.id' )
+                    ->get();
 
         return view('tweets.index', compact('tweets'));
     }
@@ -47,11 +50,12 @@ class TweetController extends Controller
         // Assign and check user all at once.
         if ( $user = Auth::user() ) { // Proceed and store data if the user is logged in.
             $validatedData = $request->validate(array(
-                'message' => 'required|max:255',
-                'author'  => 'required|max:64'
+                'message' => 'required|max:255'
             ));
-    
-            $tweet = Tweet::create( $validatedData );
+            $tweet = new Tweet;
+            $tweet->user_id = $user->id;
+            $tweet->message = $validatedData['message'];
+            $tweet->save();
     
             return redirect('/tweets')->with('success', 'Tweet saved.');
         }
@@ -70,7 +74,9 @@ class TweetController extends Controller
         //
         $tweet = Tweet::findOrFail($id);
 
-        return view( 'tweets.show', compact('tweet') );
+        $tweetUser = $tweet->user()->get()[0];
+
+        return view( 'tweets.show', compact('tweet'), compact('tweetUser') );
     }
 
     /**
@@ -102,8 +108,7 @@ class TweetController extends Controller
         // Check if user is logged in.
         if ( $user = Auth::user() ) {
             $validatedData = $request->validate(array(
-                'message' => 'required|max:255',
-                'author'  => 'required|max:64'
+                'message' => 'required|max:255'
             ));
     
             Tweet::whereId($id)->update($validatedData);
