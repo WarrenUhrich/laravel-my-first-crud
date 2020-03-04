@@ -40,6 +40,7 @@ class TweetsTableSeeder extends Seeder
         /**
          * Let's try "Faker" to prepopulate with
          * lots of imaginary data very quickly!
+         * @link https://github.com/fzaninotto/Faker
          */
 
         // Initialize!
