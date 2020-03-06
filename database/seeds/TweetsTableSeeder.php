@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Faker\Factory; // Don't forget to pull in Faker!
+use App\User;
 
 class TweetsTableSeeder extends Seeder
 {
@@ -22,20 +23,20 @@ class TweetsTableSeeder extends Seeder
          */
 
         // First Tweet.
-        DB::table( 'tweets' )->insert( array(
-            'author' => 'Bob',
-            'message' => 'My first Tweet!'
-        ) );
-        // Second Tweet.
-        DB::table( 'tweets' )->insert( array(
-            'author' => 'Sarah',
-            'message' => 'Hello, world!'
-        ) );
-        // Third Tweet.
-        DB::table( 'tweets' )->insert( array(
-            'author' => 'Sam',
-            'message' => '\'Sup, yo!?'
-        ) );
+        // DB::table( 'tweets' )->insert( array(
+        //     'author' => 'Bob',
+        //     'message' => 'My first Tweet!'
+        // ) );
+        // // Second Tweet.
+        // DB::table( 'tweets' )->insert( array(
+        //     'author' => 'Sarah',
+        //     'message' => 'Hello, world!'
+        // ) );
+        // // Third Tweet.
+        // DB::table( 'tweets' )->insert( array(
+        //     'author' => 'Sam',
+        //     'message' => '\'Sup, yo!?'
+        // ) );
 
         /**
          * Let's try "Faker" to prepopulate with
@@ -46,10 +47,12 @@ class TweetsTableSeeder extends Seeder
         // Initialize!
         $faker = Factory::create();
 
+        $users = User::all();
+        $numberOfUsers = count( $users );
         // Let's make 25 Tweets in just a few lines!
-        foreach( range( 1, 25 ) as $index ) {
+        foreach( range( 1, 35 ) as $index ) {
             DB::table( 'tweets' )->insert( array(
-                'author'  => $faker->name,
+                'user_id' => rand( 1, $numberOfUsers ),
                 'message' => $faker->catchphrase
             ) );
         }
