@@ -15,11 +15,14 @@ class CheckAge
      */
     public function handle($request, Closure $next)
     {
-        if ( $request->age < 18 )
-        {
-            return redirect( 'home' );
+        if ( $user = Auth::user() ) {
+            if ( $user->age > 18 )
+            {
+                // If an adult, continue.
+                return $next($request);
+            }
         }
-
-        return $next($request);
+        // Redirect home.
+        return redirect( 'home' );
     }
 }
