@@ -13,5 +13,10 @@
                 </a>
             </li>
         @endauth
+        <li>
+            <a href="{{ route('teams') }}">
+                Teams
+            </a>
+        </li>
     </ul>
 </nav>
