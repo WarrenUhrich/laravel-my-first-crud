@@ -21,4 +21,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/teams', 'TeamController@index')->name('teams');
+Route::get('/teams', 'TeamController@index')->name('teams')->middleware( 'check.age' );

@@ -21,6 +21,7 @@ class UsersTable extends Seeder
         foreach( range( 1, 10 ) as $index ) {
             $user = new User;
             $user->name = $faker->name;
+            $user->age = rand(13, 88);
             $user->email = $faker->email;
             $user->password = 'password';
             $user->save();
