@@ -17,12 +17,13 @@ class UsersTable extends Seeder
         // Initialize!
         $faker = Factory::create();
 
-        // Let's make 25 Tweets in just a few lines!
-        foreach( range( 1, 10 ) as $index ) {
+        // Let's make 25 users in just a few lines!
+        foreach( range( 1, 25 ) as $index ) {
             $user = new User;
             $user->name = $faker->name;
             $user->email = $faker->email;
             $user->password = 'password';
+            $user->age = rand( 13, 65 );
             $user->save();
         }
     }
